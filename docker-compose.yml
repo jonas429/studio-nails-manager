@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: studio_db
+    restart: always
+    environment:
+      POSTGRES_DB: studio_nails_db
+      POSTGRES_USER: studio_user
+      POSTGRES_PASSWORD: studio_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    container_name: studio_streamlit
+    restart: always
+    ports:
+      - "8501:8501"
+    environment:
+      DB_HOST: db
+      DB_NAME: studio_nails_db
+      DB_USER: studio_user
+      DB_PASS: studio_password
+      DB_PORT: 5432
+    volumes:
+      - ./comprovantes:/app/comprovantes
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

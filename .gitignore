@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+
+# Docker e Volumes do Postgres
+postgres_data/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
